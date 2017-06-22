@@ -1,0 +1,130 @@
+<div ng-controller="loginController" ng-init="isLoggedIn();">
+
+
+    <div id="login-box" class="col-xs-12 col-md-3 col-lg-3 form-center" ng-if="exibeLogin === '1'">
+        <!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+        <metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
+        <g><path d="M954.9,316.4H45c-19.3,0-35,13.7-35,30.6v275.6c0,16.9,15.6,30.6,35,30.6h35v306.2c0,16.9,15.7,30.6,35,30.6h770c19.3,0,35-13.7,35-30.6V653.2h35c19.3,0,35-13.7,35-30.6V347.1C989.9,330.1,974.2,316.4,954.9,316.4L954.9,316.4L954.9,316.4z M430,898.1c0,16.9-15.6,30.6-35,30.6H185c-19.4,0-35-13.8-35-30.6v-245c0-16.9,15.6-30.6,35-30.6h210c19.3,0,35,13.8,35,30.6L430,898.1L430,898.1L430,898.1z M430,530.7c0,16.9-15.6,30.6-35,30.6H115c-19.3,0-35-13.7-35-30.6V408.3c0-16.9,15.7-30.6,35-30.6h280c19.3,0,35,13.7,35,30.6V530.7L430,530.7L430,530.7z M850,898.1c0,16.9-15.6,30.6-35,30.6H605c-19.3,0-35-13.8-35-30.6v-245c0-16.9,15.6-30.6,35-30.6h210c19.3,0,35,13.8,35,30.6V898.1L850,898.1L850,898.1z M919.9,530.7c0,16.9-15.7,30.6-35,30.6H605c-19.3,0-35-13.7-35-30.6V408.3c0-16.9,15.6-30.6,35-30.6h280c19.3,0,35,13.7,35,30.6L919.9,530.7L919.9,530.7L919.9,530.7z M344.6,316.1h322c55.2-34.7,107.3-79.7,113.5-128.8c3.1-24-2.8-59.1-48.1-90.4c-25.1-17.4-50.6-26.1-75.6-26.1c-79.8,0-125,85.7-149.4,162.2c-29.1-97.6-85.5-223-182.3-223c-28.2,0-56.4,10.6-83.6,31.8c-53.9,41.7-59.3,85.1-54.1,114.1C198,220.7,272.6,276.5,344.6,316.1L344.6,316.1L344.6,316.1z M656.3,144.3c7.7,0,17.8,4,28.9,11.7c18,12.5,17,20.2,16.7,22.7c-3.3,26.8-60.8,68.9-127.7,103.6C593.8,208.3,626,144.3,656.3,144.3L656.3,144.3L656.3,144.3z M291.1,98.3c8.9-6.8,21.8-14.9,33.5-14.9c43.4,0,87.9,99.5,113.9,196.3C356.6,241.6,272,187.4,264.5,144C263.4,138,260.7,122,291.1,98.3L291.1,98.3L291.1,98.3z"/></g>
+        </svg> -->
+        <a id="logo-login" href="#">
+
+
+        </a>
+        <section class="box">
+            <form id="loginForm" name="loginForm" role="form" ng-submit="verificarLogin()" novalidate>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.login.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Login
+                    </label>
+                    <input ng-model="usuario.strLogin" required type="text" class="form-control" id="login" name="login" aria-label="Login" />
+                    <div class="tooltip top alert-tooltip" role="tooltip">
+                        <div class="tooltip-arrow"></div>
+                        <div class="tooltip-inner">
+                            Este campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.password.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Senha
+                    </label>
+                    <input ng-model="usuario.strSenha" required type="password" class="form-control" id="password" name="password" aria-label="Senha" />
+                    <div class="tooltip top alert-tooltip" role="tooltip">
+                        <div class="tooltip-arrow"></div>
+                        <div class="tooltip-inner">
+                            Este campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-label text-center">
+                    <input class="btn btn-primary" type="submit" value="Entrar" />
+                </div>
+            </form>
+        </section>
+
+        <a class="center-block text-center" role="button" ng-click="opcaoMenu('2')">
+            Esqueci a senha
+        </a>
+        <a class="center-block text-center" role="button" ng-click="opcaoMenu('3')">
+            Cadastrar
+        </a>
+    </div>
+
+    <div id="login-box" class="col-xs-12 col-md-3 col-lg-3 form-center" ng-if="exibeLogin === '2'">
+        <a id="logo-login" href="#">
+        </a>
+        <section class="box">
+            <form id="loginForm" name="loginForm" role="form" ng-submit="recuperarSenha()" novalidate>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.login.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Esqueceu a senha!
+                        Digite seu email:
+                    </label>
+                    <input ng-model="usuario.strEmail" required type="text" class="form-control" id="login" name="login" aria-label="Login" />
+                    <div class="tooltip top alert-tooltip" role="tooltip">
+                        <div class="tooltip-arrow"></div>
+                        <div class="tooltip-inner">
+                            Este campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-label text-center">
+                    <input class="btn btn-primary" type="submit" value="Recuperar" />
+                </div>
+            </form>
+        </section>
+
+        <a class="center-block text-center" role="button" ng-click="opcaoMenu('1')">
+            Voltar
+        </a>
+    </div>
+
+    <div id="login-box" class="col-xs-12 col-md-3 col-lg-3 form-center" ng-if="exibeLogin === '3'">
+        <a id="logo-login" href="#">
+        </a>
+        <section class="box">
+            <form id="loginForm" name="loginForm" role="form" ng-submit="cadastraUsuario()" novalidate>
+                <label class="nicelabel" for="txtName">
+                    Cadastro, informe seus dados:
+                </label>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.login.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Nome:
+                    </label>
+                    <input ng-model="usuario.strNome" required type="text" class="form-control" id="strNome" name="strNome" aria-label="Nome" />
+                </div>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.login.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Email:
+                    </label>
+                    <input ng-model="usuario.strEmail" required type="text" class="form-control" id="strEmail" name="strEmail" aria-label="Email" />
+                </div>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.login.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Login:
+                    </label>
+                    <input ng-model="usuario.strLogin" required type="text" class="form-control" id="strLogin" name="strLogin" aria-label="Login" />
+                </div>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.login.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Senha:
+                    </label>
+                    <input ng-model="usuario.strSenha" required type="password" class="form-control" id="strSenha" name="strSenha" aria-label="Senha" />
+                </div>
+                <div class="form-label" ng-class="{ 'has-error' : loginForm.login.$invalid && submitted }">
+                    <label class="nicelabel" for="txtName">
+                        Confirmar senha:
+                    </label>
+                    <input ng-model="usuario.strSenhaConfirma" required type="password" class="form-control" id="strSenhaConfirma" name="strSenhaConfirma" aria-label="Senha" />
+                </div>
+                <div class="form-label text-center">
+                    <input class="btn btn-primary" type="submit" value="Cadastrar" />
+                </div>
+            </form>
+        </section>
+
+        <a class="center-block text-center" role="button" ng-click="opcaoMenu('1')">
+            Voltar
+        </a>
+    </div>
+</div>

@@ -1,0 +1,513 @@
+<header class="header-page">
+    <h1>Bem Vindo</h1>
+</header>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <section
+        id="teste"
+        class="box fix-height"
+    >
+        Olá {{strNomeUsuarioprojetoAmigo}}, Bem vindo!
+
+        <br/>
+        <br/>
+        -verificaconvite {{strConvitesprojetoAmigo}}
+        <div ng-if="dadosGrupos.length > 0">
+        Abaixo está listado os grupos que você faz parte:
+        <br/>
+            <div ng-repeat="grupos in dadosGrupos">
+                Grupo - {{grupos.id_grupo}}<br/>
+                Nome - {{grupos.nome_grupo}}<br/>
+                Data - {{grupos.dataSorteio_grupo}}
+                <br/>
+                <div ng-if="grupos.admin_grupo = intIdUsuarioprojetoAmigo">
+                    <button
+                        class="btn btn-default btn-form-search"
+                        type="submit"
+                        data-toggle="modal"
+                        data-target="#modalAlterar"
+                        data-tipo="Alterar"
+                        ng-click="alterarGrupo(grupos.id_grupo);"
+                    >
+                        Alterar
+                    </button>
+                    <div ng-if="grupos.sorteio_grupo == 0">
+                        <button
+                            class="btn btn-default btn-form-search"
+                            type="submit"
+                            data-toggle="modal"
+                            data-target="#modalSortear"
+                            data-tipo="Sortear"
+                            ng-click="setIdGrupo(grupos.id_grupo);"
+                        >
+                            Sortear
+                        </button>
+                        <button
+                            class="btn btn-default btn-form-search"
+                            type="submit"
+                            data-toggle="modal"
+                            data-target="#modalConvidar"
+                            data-tipo="Convidar"
+                            ng-click="setIdGrupo(grupos.id_grupo);"
+                        >
+                            Convidar
+                        </button>
+                    </div>
+                    <div ng-if="grupos.sorteio_grupo == 1">
+                        <button
+                            class="btn btn-default btn-form-search"
+                            type="submit"
+                            data-toggle="modal"
+                            data-target="#modalResultados"
+                            data-tipo="Sortear"
+                            ng-click="exibirResultado(grupos.id_grupo);"
+                        >
+                            Resultado do sorteio
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <br/>
+        </div>
+
+        <br/>
+        <br/>
+
+        Gostaria de criar um novo grupo?<br/>
+        <button
+            class="btn btn-default btn-form-search"
+            type="submit"
+            data-toggle="modal"
+            data-target="#modalInserirEditar"
+            data-tipo="Cadastrar"
+            ng-click="opcaoGrupoCadastro();"
+        >
+            Cadastrar
+        </button>
+
+        <br/>
+        <br/>
+
+        Pesquisar grupos?<br/>
+        <button
+            class="btn btn-default btn-form-search"
+            type="submit"
+            ng-click="mudaRota();"
+        >
+            Pesquisar
+        </button>
+
+        <br/>
+        <br/>
+
+        Minha Lista de Desejos:<br/>
+        Lista os produtos:
+
+            <div ng-if="dadosGrupos.length > 0">
+            <br/>
+                <div ng-repeat="grupos in dadosGrupos">
+                    Produtos - {{grupos.id_grupo}}
+                    -- {{grupos.nome_grupo}}
+                </div>
+                <br/>
+            </div>
+            <br/>
+            <br/>
+        <button
+            class="btn btn-default btn-form-search"
+            type="submit"
+            data-toggle="modal"
+            data-target="#modalInserirEditar"
+            data-tipo="Cadastrar"
+            ng-click="mudaRota();"
+        >
+            Adicionar Mais produtos
+        </button>
+
+    </section>
+</div>
+
+<div
+    id="modalInserirEditar"
+    class="modal fade"
+    role="dialog"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span class="modalTipo"></span> Grupo
+                </h4>
+            </div>
+            <form
+                role="form"
+                name="formInserirEditar"
+                id="formInserirEditar"
+                novalidate
+                ng-submit="cadastrarGrupo(cadastro.intOpcao);"
+            >
+                <div class="modal-body">
+                    <div
+                        class="form-label col-md-12 col-sm-12 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="txtNome"
+                        >
+                            Nome*
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtNome"
+                            id="txtNome"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="cadastro.strNome"
+                        />
+                    </div>
+                    <div
+                        class="form-label col-md-12 col-sm-12 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="txtNome"
+                        >
+                            Descrição*
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtDescricao"
+                            id="txtDescricao"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="cadastro.strDescricao"
+                        />
+                    </div>
+                    <div
+                        class="form-label col-md-6 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="lstTipo"
+                        >
+                            Tipo*
+                        </label>
+                        <select
+                            class="form-control"
+                            id="lstTipo"
+                            name="lstTipo"
+                            required
+                            aria-label="Tipo"
+                            ng-model="cadastro.intTipo"
+                        >
+                            <option value="1">Aniversário</option>
+                            <option value="2">Trabalho</option>
+                            <option value="3">Amigos</option>
+                            <option value="4">Outros</option>
+                        </select>
+                    </div>
+                    <div class="form-label col-xs-12 col-md-6">
+                        <label
+                            class="nicelabel"
+                            for="txtDataInicial"
+                        >
+                            Data Inicial
+                        </label>
+                        <div class="input-group date datepicker">
+                            <input
+                                id="dateSorteio"
+                                name="dateSorteio"
+                                type="text"
+                                class="form-control data-inicial"
+                                data-provide="datepicker"
+                                maxlength="10"
+                                aria-label="Data Sorteio"
+                                ng-model="cadastro.dateSorteio"
+                            />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        class="form-label col-xs-12 col-md-6"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="fltPreco"
+                        >
+                            Qual o valor maximo dos presentes?*
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="fltPreco"
+                            name="fltPreco"
+                            required
+                            ng-model="cadastro.fltPreco"
+                            ui-money-mask
+                        />
+                    </div>
+                    <div
+                        class="form-label col-xs-12 col-md-12"
+                    >
+                        <input
+                            type="checkbox"
+                            name="status"
+                            id="checkStatus"
+                            aria-label="Status"
+                            ng-model="cadastro.blnAtivo"
+                            ng-checked="cadastro.blnAtivo == 0"
+                        /> Inativo
+                    </div>
+                    <div class="both"></div>
+                </div>
+                <div class="modal-footer text-center">
+                    <input
+                        id="cancel-create-department"
+                        class="btn btn-default"
+                        type="button"
+                        value="Cancelar"
+                        data-dismiss="modal"
+                    />
+                    <input
+                        class="btn btn-primary btn-form-create"
+                        type="submit"
+                        value="Salvar"
+                        ng-disabled="!formInserirEditar.$valid"
+                    />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div
+    id="modalSortear"
+    class="modal fade"
+    role="dialog"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span class="modalTipo"></span> Sortear
+                </h4>
+            </div>
+            <form
+                role="form"
+                name="formInserirEditar"
+                id="formInserirEditar"
+                novalidate
+                ng-submit="sortearGrupo();"
+            >
+                <div class="modal-body">
+                    <div
+                        class="form-label col-md-12 col-sm-12 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="txtNome"
+                        >
+                            Deseja realizar o sorteio agora?
+                        </label>
+                    </div>
+                    <div class="both"></div>
+                </div>
+                <div class="modal-footer text-center">
+                    <input
+                        id="cancel-create-department"
+                        class="btn btn-default"
+                        type="button"
+                        value="Cancelar"
+                        data-dismiss="modal"
+                    />
+                    <input
+                        class="btn btn-primary btn-form-create"
+                        type="submit"
+                        value="Sortear"
+                    />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div
+    id="modalConvidar"
+    class="modal fade"
+    role="dialog"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span class="modalTipo"></span> Convidar
+                </h4>
+            </div>
+            <form
+                role="form"
+                name="formInserirEditar"
+                id="formInserirEditar"
+                novalidate
+                ng-submit="convidarGrupo();"
+            >
+                <div class="modal-body">
+                    <div
+                        class="form-label col-md-12 col-sm-12 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="txtNome"
+                        >
+                            Informe o email dos seus amigos:
+                        </label>
+                        <br/>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtMail"
+                            id="txtMail"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="emailConvite.strMail1"
+                        />
+                        <br/>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtMail"
+                            id="txtMail"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="emailConvite.strMail2"
+                        />
+                        <br/>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtMail"
+                            id="txtMail"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="emailConvite.strMail3"
+                        />
+                        <br/>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtMail"
+                            id="txtMail"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="emailConvite.strMail4"
+                        />
+                        <br/>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtMail"
+                            id="txtMail"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="emailConvite.strMail5"
+                        />
+                    </div>
+                    <div class="both"></div>
+                </div>
+                <div class="modal-footer text-center">
+                    <input
+                        id="cancel-create-department"
+                        class="btn btn-default"
+                        type="button"
+                        value="Cancelar"
+                        data-dismiss="modal"
+                    />
+                    <input
+                        class="btn btn-primary btn-form-create"
+                        type="submit"
+                        value="Enviar"
+                    />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div
+    id="modalResultados"
+    class="modal fade"
+    role="dialog"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span class="modalTipo"></span> Resultados
+                </h4>
+            </div>
+                <div class="modal-body">
+                    <div
+                        class="form-label col-md-12 col-sm-12 col-xs-12" ng-repear="resultado in resultadoSorteio"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="txtNome"
+                        >
+                            O {{resultadoSorteio.nome}} saiu com {{resultadoSorteio.nome}}
+                        </label>
+                    </div>
+                    <div class="both"></div>
+                </div>
+                <div class="modal-footer text-center">
+                    <input
+                        id="cancel-create-department"
+                        class="btn btn-default"
+                        type="button"
+                        value="Cancelar"
+                        data-dismiss="modal"
+                    />
+                </div>
+        </div>
+    </div>
+</div>
