@@ -8,7 +8,6 @@ app.run(function($rootScope, $location, AuthService, toastr, $window) {
             $rootScope.strNomeUsuarioprojetoAmigo = JSON.parse($window.localStorage.getItem('projetoAmigo')).strNomeUsuarioprojetoAmigo;
             $rootScope.intNivelprojetoAmigo = JSON.parse($window.localStorage.getItem('projetoAmigo')).intNivelprojetoAmigo;
             $rootScope.intIdUsuarioprojetoAmigo = JSON.parse($window.localStorage.getItem('projetoAmigo')).intIdUsuarioprojetoAmigo;
-            $rootScope.strConvitesprojetoAmigo = JSON.parse($window.localStorage.getItem('projetoAmigo')).strConvitesprojetoAmigo;
         }else{
             $location.path('/login');
         }

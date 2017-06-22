@@ -75,6 +75,7 @@ class Grupo extends AppModel
         ];
 
         $objTransacao = $this->select($sqlVerifica, $arrParametrosVerifica);
+
         if($objTransacao[0]['totalUser'] == 0){
             $sql = 'INSERT INTO tab_usuarioGrupo
                             (grupo_usuarioGrupo,
@@ -85,13 +86,18 @@ class Grupo extends AppModel
                              :dataAgora)';
             $arrParametros = [
                  ':intGrupo' =>  $objGrupo['idGrupo'],
-                 ':intUsuario' => $idUser->intIdUsuario,
+                 ':intUsuario' => $idUsuario->intIdUsuario,
                  ':dataAgora' => date('Y-m-d'),
             ];
             $objTransacao2 = $this->execute($sql, $arrParametros);
             if ($objTransacao2 === false) {
                 return ['code' => 0, 'message' => 'Não foi possivel participar deste grupo'];
             } else {
+                $sqlConvite = "UPDATE tab_convite set aceito_convite = '1' where email_convite = :strEmail";
+                $arrParametrosConvite = [
+                    ':strEmail' => $idUsuario->emailUsuario,
+                ];
+                $objTransacao3 = $this->execute($sqlConvite, $arrParametrosConvite);
                 return ['code' => 1, 'message' => 'Agora você está participando deste grupo'];
             }
         }else{
@@ -107,7 +113,7 @@ class Grupo extends AppModel
                     SET ativo_usuarioGrupo = "1"
                 where
                     grupo_usuarioGrupo =:id_grupo,
-                    usuario_usuarioGrupo = :id_usuario)';
+                    usuario_usuarioGrupo = :id_usuario';
         $arrParametros = [
             ':id_grupo' => $objGrupo['strNome'],
             ':id_usuario' => $idUser->intIdUsuario
@@ -117,6 +123,18 @@ class Grupo extends AppModel
             return ['code' => 0, 'message' => 'Não foi possivel criar o grupo!'];
         } else {
             return ['code' => 1, 'message' => 'Grupo criado com sucesso!'];
+        }
+    }
+
+    public function verificaConvite($idUsuario)
+    {
+        $sql = 'SELECT DISTINCT grupo_convite FROM tab_convite where email_convite = :strEmail AND aceito_convite = 0';
+        $convites = $this->select($sql, [':strEmail' => $usuario[0]['email_usuario']]);
+        if ($convites === false) {
+            return ['code' => 0, 'message' => 'Não existe nenhum convite em aberto.'];
+        } else {
+            $sql = 'SELECT Count() grupo_convite FROM tab_convite where email_convite = :strEmail AND aceito_convite = 0';
+            return ['code' => 1, 'usuario' => $usuario[0], 'convite' => $convites];
         }
     }
 

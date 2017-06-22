@@ -157,6 +157,11 @@ $app->group('/grupo', function () use ($app) {
         return $response->withJson($dados);
     });
 
+    $app->post('/verificaConvite', function (Request $request, Response $response) use ($objGrupo) {
+        $dados = $objGrupo->verificaConvite($this->jwt);
+        return $response->withJson($dados);
+    });
+
     $app->post('/retornarGrupoId', function (Request $request, Response $response) use ($objGrupo) {
         $data = $request->getParsedBody();
         $dados = $objGrupo->retornarGrupoId($data, $this->jwt);

@@ -11,14 +11,30 @@
 
         <br/>
         <br/>
-        -verificaconvite {{strConvitesprojetoAmigo}}
+        <div ng-if="strConvites != null">
+            Você possui convites pendentes:
+            <br/>
+            <div ng-repeat="convites in strConvites">
+                Deseja participar do grupo - {{convites.grupo_convite}} -
+                <button
+                    class="btn btn-default btn-form-search"
+                    type="submit"
+                    ng-click="entrarGrupo(convites.grupo_convite);"
+                >
+                    Aceitar
+                </button>
+            </div>
+        </div>
+        <br/>
+        <br/>
+
         <div ng-if="dadosGrupos.length > 0">
         Abaixo está listado os grupos que você faz parte:
         <br/>
             <div ng-repeat="grupos in dadosGrupos">
                 Grupo - {{grupos.id_grupo}}<br/>
                 Nome - {{grupos.nome_grupo}}<br/>
-                Data - {{grupos.dataSorteio_grupo}}
+                Data do Sorteio- {{parseDate(grupos.dataSorteio_grupo, 3)}}
                 <br/>
                 <div ng-if="grupos.admin_grupo = intIdUsuarioprojetoAmigo">
                     <button

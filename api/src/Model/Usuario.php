@@ -13,6 +13,7 @@ class Usuario extends AppModel
             $token = [
                 'dataCriacao' => strtotime('now'),
                 'intIdUsuario' => $usuario['usuario']['id_usuario'],
+                'emailUsuario' => $usuario['usuario']['email_usuario'],
                 'strNome' => $usuario['usuario']['nome_usuario'],
                 'strLogin' => $usuario['usuario']['login_usuario'],
                 'intNivel' => $usuario['usuario']['nivelAcesso_usuario']
@@ -22,8 +23,7 @@ class Usuario extends AppModel
                 'token' => JWTAuth::encode($token),
                 'intIdUsuario' => $usuario['usuario']['id_usuario'],
                 'strNome' => $usuario['usuario']['nome_usuario'],
-                'intNivel' => $usuario['usuario']['nivelAcesso_usuario'],
-                'convites' => $usuario['convite']
+                'intNivel' => $usuario['usuario']['nivelAcesso_usuario']
             ];
         } else {
             return [
@@ -35,7 +35,19 @@ class Usuario extends AppModel
 
     private function getUsuario(string $login, string $senha)
     {
-        $sql = 'SELECT nome_usuario, login_usuario, ativo_usuario, id_usuario, senha_usuario, nivelAcesso_usuario FROM tab_usuario where login_usuario = :login order by id_usuario limit 1';
+        $sql = 'SELECT
+                    nome_usuario,
+                    login_usuario,
+                    ativo_usuario,
+                    id_usuario,
+                    senha_usuario,
+                    nivelAcesso_usuario,
+                    email_usuario
+                FROM
+                    tab_usuario
+                WHERE
+                    login_usuario = :login
+                order by id_usuario limit 1';
         $usuario = $this->select($sql, [':login' => $login]);
         if ($usuario === false && $usuario[0]['senha_usuario'] === false) {
             return ['code' => 0, 'message' => 'Usuário não encontrado!'];
@@ -45,12 +57,12 @@ class Usuario extends AppModel
             return ['code' => 0, 'message' => 'Senha incorreta!'];
         } else {
             // verifica convite Grupo
-            $sql = 'SELECT grupo_convite FROM tab_convite where email_convite = :strEmail';
-            $convites = $this->select($sql, [':strEmail' => $usuario[0]['email']]);
-            if ($convites === false && $convites[0]['grupo_convite'] === false) {
+            $sql = 'SELECT DISTINCT grupo_convite FROM tab_convite where email_convite = :strEmail AND aceito_convite = 0';
+            $convites = $this->select($sql, [':strEmail' => $usuario[0]['email_usuario']]);
+            if ($convites === false && $convites === false) {
                 return ['code' => 1, 'usuario' => $usuario[0]];
             } else {
-                return ['code' => 1, 'usuario' => $usuario[0], 'convite' => $convites[0]['grupo_convite']];
+                return ['code' => 1, 'usuario' => $usuario[0], 'convite' => $convites];
             }
         }
     }

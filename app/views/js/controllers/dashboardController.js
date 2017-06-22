@@ -13,12 +13,31 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
             if (response.code == 1) {
                 $scope.dadosGrupos = response.grupo;
             } else {
-                toastr.error('Não foi possível carregar os dados, tente novamente mais tarde!');
+                toastr.error('Você não está participando de nenhum grupo!');
             }
         }).error(function(error){
             toastr.error('Não foi possível realizar a pesquisa!');
         });
+    };
 
+    $scope.verificaConvite = function(){
+        var strUrl = BASEURL + 'grupo/verificaConvite';
+        var config = {
+            headers: {
+                'Content-Type':  'application/json;charset=utf-8;',
+                'Authorization': 'Bearer ' + JSON.parse($window.localStorage.getItem('projetoAmigo')).jwtTokenprojetoAmigo
+            }
+        };
+        $http.post(strUrl, config).success(function(response){
+            console.log(response);
+            if (response.code == 1) {
+                $scope.strConvites = response.grupo;
+            } else {
+                // toastr.error('Você não está participando de nenhum grupo!');
+            }
+        }).error(function(error){
+            // toastr.error('Não foi possível realizar a pesquisa!');
+        });
     };
 
     $scope.cadastrarGrupo = function(){
@@ -41,7 +60,7 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
                 }
             };
             var data = $scope.cadastro;
-            data.dateSorteio = parseDate(data.dateSorteio , 1);
+            data.dateSorteio = $scope.parseDate(data.dateSorteio , 1);
             console.log(data);
             $http.post(strUrl, data, config).success(function(response){
                 console.log(response);
@@ -93,7 +112,7 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
                 'strDescricao': response.grupo[0].descricao_grupo,
                 'intTipo':  response.grupo[0].tipo_grupo,
                 'fltPreco': response.grupo[0].faixaPreco_grupo,
-                'dateSorteio': parseDate(response.grupo[0].dataSorteio_grupo, 3),
+                'dateSorteio': $scope.parseDate(response.grupo[0].dataSorteio_grupo, 3),
                 'intOpcao': '0'
             };
                 $('#modalInserirEditar').modal('toggle');
@@ -195,8 +214,7 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
         $location.path('/grupos');
     };
 
-
-    function parseDate(input, tipo) {
+    $scope.parseDate = function(input, tipo) {
         var parts = input;
         if (tipo === 1 ){
             parts = parts.split('/');
@@ -211,6 +229,32 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
         }
     }
 
+    $scope.entrarGrupo = function(idGrupo){
+        var strUrl = BASEURL + 'grupo/entrarGrupo';
+        var config = {
+            headers: {
+                'Content-Type':  'application/json;charset=utf-8;',
+                'Authorization': 'Bearer' + JSON.parse($window.localStorage.getItem('projetoAmigo')).jwtTokenprojetoAmigo
+            }
+        };
+        var data = {
+            'idGrupo': idGrupo
+        }
+        console.log(data);
+        $http.post(strUrl, data, config).success(function(response){
+            console.log(response);
+            if (response.code == 1) {
+                toastr.success(response.message);
+                $window.location.reload();
+            } else {
+                toastr.error(response.message);
+            }
+        }).error(function(error){
+            toastr.error('Não foi possível entrar no grupo!');
+        });
+    };
+
     $scope.carregaGrupos();
+    $scope.verificaConvite();
     $scope.emailConvite = '';
 });
