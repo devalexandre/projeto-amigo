@@ -20,7 +20,7 @@ app.controller('loginController', function($scope, $rootScope, toastr, BASEURL, 
             console.log(response);
             if ($scope.verificaToken(response.token)) {
                 AuthService.saveToken(response.token);
-                $scope.salvaUsuario(response.strNome, response.intNivel, response.intIdUsuario, response.convites);
+                $scope.salvaUsuario(response.strNome, response.intNivel, response.intIdUsuario);
                 $location.path('/');
             } else if (response.code === 0) {
                 toastr.error(response.message);
@@ -107,13 +107,12 @@ app.controller('loginController', function($scope, $rootScope, toastr, BASEURL, 
 
     };
 
-    $scope.salvaUsuario = function(strNome, intNivel, idUser, strConvites) {
+    $scope.salvaUsuario = function(strNome, intNivel, idUser) {
         var projetoAmigo = [];
         projetoAmigo = {
             'strNomeUsuarioprojetoAmigo': strNome,
             'intNivelprojetoAmigo': intNivel,
             'intIdUsuarioprojetoAmigo': idUser,
-            'strConvitesprojetoAmigo': strConvites,
             'jwtTokenprojetoAmigo': JSON.parse($window.localStorage.getItem('projetoAmigo')).jwtTokenprojetoAmigo
         };
         $window.localStorage.setItem('projetoAmigo', JSON.stringify(projetoAmigo));

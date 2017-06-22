@@ -30,7 +30,7 @@ CREATE TABLE `tab_convite` (
   `dataCriacao_convite` datetime DEFAULT NULL,
   `grupo_convite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_convite`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `tab_convite` (
 
 LOCK TABLES `tab_convite` WRITE;
 /*!40000 ALTER TABLE `tab_convite` DISABLE KEYS */;
-INSERT INTO `tab_convite` VALUES (1,0,'teste',0,'2017-06-22 00:00:00',1),(2,0,'xxx',0,'2017-06-22 00:00:00',1),(3,0,'Fred',0,'2017-06-22 00:00:00',1),(4,0,'fsds',0,'2017-06-22 00:00:00',1);
+INSERT INTO `tab_convite` VALUES (1,0,'teste',0,'2017-06-22 00:00:00',1),(2,0,'xxx',0,'2017-06-22 00:00:00',1),(3,0,'Fred',0,'2017-06-22 00:00:00',1),(4,0,'fsds',0,'2017-06-22 00:00:00',1),(5,0,'fred.fmm@gmail.com',0,'2017-06-22 00:00:00',1),(6,0,'fred.fmm@gmail.com',1,'2017-06-22 00:00:00',1),(7,0,'fred.fmm@gmail.com',1,'2017-06-22 00:00:00',1);
 /*!40000 ALTER TABLE `tab_convite` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,7 +193,7 @@ CREATE TABLE `tab_usuario` (
   `nivelAcesso_usuario` int(11) NOT NULL DEFAULT '0',
   `dataCriacao_usuario` datetime DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,7 +202,7 @@ CREATE TABLE `tab_usuario` (
 
 LOCK TABLES `tab_usuario` WRITE;
 /*!40000 ALTER TABLE `tab_usuario` DISABLE KEYS */;
-INSERT INTO `tab_usuario` VALUES (1,'Admin','$2y$10$1M8GPMTrJzZJe2PhQ9x3c.ZBUTSXOeOfVmV5IoGFNP0HaVB8Ilq3O','admin','fred.fmm@gmail.com',0,3,NULL),(2,'teste2','$2y$10$H7FEc15fhbvuoFsIJ6szCesCR5RzOt3LWurgnHcHAEHWbp2okLCtG','teste','teste@gmail.com',0,2,'2017-06-20 00:00:00'),(3,'teste','$2y$10$KTmU80wSgFxbSRxgpUUgmu8tITE800uctyDry9aneE/wk8IAjRPQO','teste2','teste@mail.com',0,0,'2017-06-21 00:00:00');
+INSERT INTO `tab_usuario` VALUES (1,'Admin','$2y$10$1M8GPMTrJzZJe2PhQ9x3c.ZBUTSXOeOfVmV5IoGFNP0HaVB8Ilq3O','admin','fred.fmm@gmail.com',0,3,NULL),(2,'teste2','$2y$10$H7FEc15fhbvuoFsIJ6szCesCR5RzOt3LWurgnHcHAEHWbp2okLCtG','teste','teste@gmail.com',0,2,'2017-06-20 00:00:00'),(3,'teste','$2y$10$KTmU80wSgFxbSRxgpUUgmu8tITE800uctyDry9aneE/wk8IAjRPQO','teste2','teste@mail.com',0,0,'2017-06-21 00:00:00'),(4,'Frederico','$2y$10$FhbXKxtF6eEnvvvINvp27eq1jVW.pu2NMQANRncfd88.nIEbG79lG','fred.fmm','fred.fmm@gmail.com',0,3,'2017-06-22 00:00:00');
 /*!40000 ALTER TABLE `tab_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +220,7 @@ CREATE TABLE `tab_usuarioGrupo` (
   `dataCriacao_usuarioGrupo` datetime DEFAULT NULL,
   `sorteio_usuarioGrupo` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_usuarioGrupo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,4 +246,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-22 10:29:43
+-- Dump completed on 2017-06-22 17:42:45
