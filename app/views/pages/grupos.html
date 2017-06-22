@@ -1,0 +1,306 @@
+<header class="header-page">
+    <h1>Grupos</h1>
+</header>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <section
+        id="teste"
+        class="box fix-height"
+    >
+        <form
+            id="formBuscaGrupo"
+            name="formBuscaGrupo"
+            class="col-lg-8 col-md-10 col-xs-12 form-center"
+        >
+            <div class="form-label col-md-4 col-xs-12 no-padding-right">
+                <label
+                    class="nicelabel"
+                    for="lstBuscaFiltro"
+                >
+                    Pesquisar por
+                </label>
+                <select
+                    class="form-control"
+                    id="lstBuscaFiltro"
+                    name="lstBuscaFiltro"
+                    required
+                    aria-label="filtro"
+                    ng-focus="opcaoBusca = ''"
+                >
+                    <option value="nome">Nome</option>
+                    <option value="status">Status</option>
+                    <option value="tipo">Tipo</option>
+                </select>
+            </div>
+            <div
+                id="filtro-nome"
+                class="filtro open form-label col-xs-12 col-md-8"
+            >
+                <label
+                    class="nicelabel"
+                    for="txtBuscaNome"
+                >
+                    Nome
+                </label>
+                <input
+                    ng-model="opcaoBusca.nome"
+                    ng-focus="opcaoBusca = ''"
+                    type="text"
+                    class="form-control"
+                    id="txtBuscaNome"
+                    aria-label="Nome"
+                    placeholder="Digite o nome do usuário"
+                />
+            </div>
+            <div
+                id="filtro-status"
+                class="filtro form-label col-xs-12 col-md-8"
+                style="display: none;"
+            >
+                <label
+                    class="nicelabel"
+                    for="lstBuscaStatus"
+                >
+                    Status
+                </label>
+                <select
+                    id="lstBuscaStatus"
+                    class="form-control"
+                    name="lstBuscaStatus"
+                    aria-label="Status"
+                    ng-model="opcaoBusca.status"
+                    ng-focus="opcaoBusca = ''"
+                >
+                    <option value="">Status</option>
+                    <option value="1">Ativo</option>
+                    <option value="0">Inativo</option>
+                </select>
+            </div>
+            <div
+                id="filtro-tipo"
+                class="filtro form-label col-xs-12 col-md-8"
+                style="display: none;"
+            >
+                <label
+                    class="nicelabel"
+                    for="lstBuscatipo"
+                >
+                    Nível
+                </label>
+                <select
+                    ng-model="opcaoBusca.tipo"
+                    ng-focus="opcaoBusca = ''"
+                    id="lstBuscatipo"
+                    class="form-control"
+                    name="lstBuscatipo"
+                    aria-label="Nível"
+                >
+                    <option value="">tipo</option>
+                    <option value="1">Básico</option>
+                    <option value="2">Intermediário</option>
+                    <option value="3">Administrador</option>
+                </select>
+            </div>
+            <div class="both"></div>
+            <div class="form-label col-md-12 col-sm-12 col-xs-12 text-center">
+                <button
+                    class="btn btn-default btn-form-search"
+                    type="submit"
+                    data-toggle="modal"
+                    data-target="#modalInserirEditar"
+                    data-tipo="Cadastrar"
+                    ng-click="opcaoGrupoCadastro();"
+                >
+                    Cadastrar
+                </button>
+                <button
+                    class="btn btn-primary btn-form-search"
+                    type="submit"
+                    ng-click="pesquisarGrupos();"
+                >
+                    Pesquisar
+                </button>
+            </div>
+            <div class="both"></div>
+        </form>
+        <div
+            id="search-result"
+            class="col-lg-8 col-md-10 col-xs-12 form-center table-new-responsive table-result"
+            ng-if="showDiv == true"
+        >
+            <div
+                ui-grid="gridOptions1"
+                ui-grid-pagination
+                ui-grid-auto-resize
+                ui-grid-pinning
+            ></div>
+        </div>
+    </section>
+</div>
+
+<div
+    id="modalInserirEditar"
+    class="modal fade"
+    role="dialog"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span class="modalTipo"></span> Grupo
+                </h4>
+            </div>
+            <form
+                role="form"
+                name="formInserirEditar"
+                id="formInserirEditar"
+                novalidate
+                ng-submit="opcaoGrupo(cadastro.intOpcao);"
+            >
+                <div class="modal-body">
+                    <div
+                        class="form-label col-md-12 col-sm-12 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="txtNome"
+                        >
+                            Nome*
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtNome"
+                            id="txtNome"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="cadastro.strNome"
+                        />
+                    </div>
+                    <div
+                        class="form-label col-md-12 col-sm-12 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="txtNome"
+                        >
+                            Descrição*
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="txtDescricao"
+                            id="txtDescricao"
+                            maxlength="50"
+                            required
+                            aria-label="Nome"
+                            ng-model="cadastro.strDescricao"
+                        />
+                    </div>
+                    <div
+                        class="form-label col-md-6 col-xs-12"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="lstTipo"
+                        >
+                            Tipo*
+                        </label>
+                        <select
+                            class="form-control"
+                            id="lstTipo"
+                            name="lstTipo"
+                            required
+                            aria-label="Tipo"
+                            ng-model="cadastro.intTipo"
+                        >
+                            <option value="1">Aniversário</option>
+                            <option value="2">Trabalho</option>
+                            <option value="3">Amigos</option>
+                            <option value="4">Outros</option>
+                        </select>
+                    </div>
+                    <div class="form-label col-xs-12 col-md-6">
+                        <label
+                            class="nicelabel"
+                            for="txtDataInicial"
+                        >
+                            Data Inicial
+                        </label>
+                        <div class="input-group date datepicker">
+                            <input
+                                id="dateSorteio"
+                                name="dateSorteio"
+                                type="text"
+                                class="form-control data-inicial"
+                                data-provide="datepicker"
+                                maxlength="10"
+                                aria-label="Data Sorteio"
+                                ng-model="cadastro.dateSorteio"
+                            />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        class="form-label col-xs-12 col-md-6"
+                    >
+                        <label
+                            class="nicelabel"
+                            for="fltPreco"
+                        >
+                            Qual o valor maximo dos presentes?*
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="fltPreco"
+                            name="fltPreco"
+                            required
+                            ng-model="cadastro.fltPreco"
+                            ui-money-mask
+                        />
+                    </div>
+                    <div
+                        class="form-label col-xs-12 col-md-12"
+                    >
+                        <input
+                            type="checkbox"
+                            name="status"
+                            id="checkStatus"
+                            aria-label="Status"
+                            ng-model="cadastro.blnAtivo"
+                            ng-checked="cadastro.blnAtivo == 0"
+                        /> Inativo
+                    </div>
+                    <div class="both"></div>
+                </div>
+                <div class="modal-footer text-center">
+                    <input
+                        id="cancel-create-department"
+                        class="btn btn-default"
+                        type="button"
+                        value="Cancelar"
+                        data-dismiss="modal"
+                    />
+                    <input
+                        class="btn btn-primary btn-form-create"
+                        type="submit"
+                        value="Salvar"
+                        ng-disabled="!formInserirEditar.$valid"
+                    />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
