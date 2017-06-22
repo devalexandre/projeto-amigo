@@ -482,7 +482,6 @@ class ComposerStaticInit5553e96d286cfb7b5c4b76700375f74d
         'WebService\\Model\\Grupo' => __DIR__ . '/../..' . '/api/src/Model/Grupo.php',
         'WebService\\Model\\Mensagem' => __DIR__ . '/../..' . '/api/src/Model/Mensagem.php',
         'WebService\\Model\\Produto' => __DIR__ . '/../..' . '/api/src/Model/Produto.php',
-        'WebService\\Model\\Solicitacao' => __DIR__ . '/../..' . '/api/src/Model/Solicitacao.php',
         'WebService\\Model\\Usuario' => __DIR__ . '/../..' . '/api/src/Model/Usuario.php',
         'WebService\\Util\\Date' => __DIR__ . '/../..' . '/api/src/Util/Date.php',
         'WebService\\Util\\JWTAuth' => __DIR__ . '/../..' . '/api/src/Util/JWTAuth.php',

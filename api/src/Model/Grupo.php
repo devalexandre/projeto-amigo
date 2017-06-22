@@ -1,6 +1,8 @@
 <?php
 
 namespace WebService\Model;
+require '../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
+use PHPMailer;
 
 class Grupo extends AppModel
 {
@@ -121,9 +123,9 @@ class Grupo extends AppModel
     public function enviarConvite($objGrupo, $idUser)
     {
         foreach($objGrupo['listMail'] as $value){
-
-            // $enviarSolicitacao = $this->enviaSolicitacao($value, $idUser->strNome);
-            // if($enviarSolicitacao == true){
+            $enviarSolicitacao = $this->enviaSolicitacao($value, $idUser->strNome);
+            return $enviarSolicitacao;
+            if($enviarSolicitacao == true){
                 $sql = "INSERT INTO tab_convite (grupo_convite, email_convite, dataCriacao_convite) values (:idGrupo, :emailSorteado, :dataCriacao)";
                 $arrParametros = [
                     ':idGrupo' => $objGrupo['idGrupo'],
@@ -131,41 +133,44 @@ class Grupo extends AppModel
                     ':dataCriacao' => date('Y-m-d')
                 ];
                 $objTransacao2 = $this->execute($sql, $arrParametros);
-            // }
+            }
             return ['code' => 1, 'message' => 'Os convites foram enviados com sucesso!'];
         }
     }
 
-    public function enviaSolicitacao($dadosCliente, array $solicitacao)
+    private function enviaSolicitacao($emailCliente, $strRemetente)
     {
+
         $mail = new PHPMailer();
         $mail->IsSMTP();
+        $mail->SMTPDebug = 2;
+        $mail->Debugoutput = 'html';
         $mail->Host = 'smtp.gmail.com';
         $mail->CharSet = 'UTF-8';
         $mail->Port = 587;
         $mail->SMTPSecure = 'tls';
         $mail->SMTPAuth = true;
         $mail->Username = 'fred.fmm@gmail.com';
-        $mail->Password = 'teste';
-        $mail->SMTPOptions = [
-          'ssl' => [
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
-          ]
+        $mail->Password = 'fredff150';
 
-        ];
+
+
         // Define o remetente
         $mail->From = 'fred.fmm@gmail.com';
-        $mail->FromName = 'Amigo Screto';
+        $mail->FromName = $strRemetente;
         // Define os destinatário(s)
-        $mail->AddAddress($emailDestino);
+        $mail->AddAddress($emailCliente);
         $mail->IsHTML(true);
         $mail->Subject = 'Você recebeu um convite para participar do amigo secreto';
         $mail->Body = 'teste';
 
         $enviado = $mail->Send();
+        if (!$enviado) {
+            return ['code' => 1, 'message' =>  $enviado];
 
+        } else {
+            return ['code' => 1, 'message' => 'foi'];
+        }
         $mail->ClearAllRecipients();
         $mail->ClearAttachments();
 

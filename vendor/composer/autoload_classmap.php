@@ -348,7 +348,6 @@ return array(
     'WebService\\Model\\Grupo' => $baseDir . '/api/src/Model/Grupo.php',
     'WebService\\Model\\Mensagem' => $baseDir . '/api/src/Model/Mensagem.php',
     'WebService\\Model\\Produto' => $baseDir . '/api/src/Model/Produto.php',
-    'WebService\\Model\\Solicitacao' => $baseDir . '/api/src/Model/Solicitacao.php',
     'WebService\\Model\\Usuario' => $baseDir . '/api/src/Model/Usuario.php',
     'WebService\\Util\\Date' => $baseDir . '/api/src/Util/Date.php',
     'WebService\\Util\\JWTAuth' => $baseDir . '/api/src/Util/JWTAuth.php',
