@@ -49,9 +49,9 @@ app.controller('gruposController', function ($scope, $rootScope, BASEURL, $windo
             { field: 'nome_grupo', displayName: 'Nome'},
             { field: 'tipo_grupo', displayName: 'Tipo' },
             { field: 'dataSorteio_grupo', displayName: 'Data', width:200 },
-            { field: 'faixaPreco_grupo', displayName: 'Preço Max', width:110 },
+            { field: 'faixaPreco_grupo', displayName: 'Preço Max',cellFilter: 'currency', width:110 },
             { field: 'ativo_grupo', displayName: 'Ativo', width:110 },
-            { name: ' ', enableColumnMenu: false, cellTemplate:'<a ng-if="row.entity.admin_grupo != intIdUsuario" role="button" class="table-icon" data-tipo="Editar" ng-click="grid.appScope.entrarGrupo(row.entity.id_grupo);">Entrar</a>', width: 50 }
+            { name: ' ', enableColumnMenu: false, cellTemplate:'<a ng-if="row.entity.admin_grupo == intIdUsuario" role="button" class="table-icon" data-tipo="Editar" ng-click="grid.appScope.entrarGrupo(row.entity.id_grupo);">Entrar</a>', width: 50 }
         ]
     };
 
