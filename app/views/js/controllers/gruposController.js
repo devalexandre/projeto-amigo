@@ -1,4 +1,4 @@
-app.controller('criarGrupoController', function ($scope, $rootScope, BASEURL, $window, $http, $timeout, $filter, toastr) {
+app.controller('gruposController', function ($scope, $rootScope, BASEURL, $window, $http, $timeout, $filter, toastr) {
 
     var dataAtual = moment();
     var mesAtual = dataAtual.month();
@@ -51,7 +51,7 @@ app.controller('criarGrupoController', function ($scope, $rootScope, BASEURL, $w
             { field: 'dataSorteio_grupo', displayName: 'Data', width:200 },
             { field: 'faixaPreco_grupo', displayName: 'Preço Max', width:110 },
             { field: 'ativo_grupo', displayName: 'Ativo', width:110 },
-            { name: ' ', enableColumnMenu: false, cellTemplate:'<a ng-if="row.entity.admin_grupo = intIdUsuario" role="button" class="table-icon" data-tipo="Editar" ng-click="grid.appScope.entrarGrupo(row.entity.id_grupo);">Entrar</a>', width: 30 }
+            { name: ' ', enableColumnMenu: false, cellTemplate:'<a ng-if="row.entity.admin_grupo != intIdUsuario" role="button" class="table-icon" data-tipo="Editar" ng-click="grid.appScope.entrarGrupo(row.entity.id_grupo);">Entrar</a>', width: 50 }
         ]
     };
 
@@ -112,7 +112,7 @@ app.controller('criarGrupoController', function ($scope, $rootScope, BASEURL, $w
             toastr.error('Para continuar é necessario selecionar uma data.');
         }else{
             // $scope.cadastro.dateSorteio = parseDate($scope.cadastro.dateSorteio, 1);
-            var strUrl = BASEURL + 'grupo/criarGrupo';
+            var strUrl = BASEURL + 'grupo/grupos';
             var config = {
                 headers: {
                     'Content-Type':  'application/json;charset=utf-8;',

@@ -153,7 +153,6 @@
                 role="form"
                 name="formInserirEditar"
                 id="formInserirEditar"
-                novalidate
                 ng-submit="cadastrarGrupo(cadastro.intOpcao);"
             >
                 <div class="modal-body">
@@ -237,6 +236,7 @@
                                 maxlength="10"
                                 aria-label="Data Sorteio"
                                 ng-model="cadastro.dateSorteio"
+                                required
                             />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -271,7 +271,7 @@
                             id="checkStatus"
                             aria-label="Status"
                             ng-model="cadastro.blnAtivo"
-                            ng-checked="cadastro.blnAtivo == 0"
+                            ng-checked="cadastro.blnAtivo == 1"
                         /> Inativo
                     </div>
                     <div class="both"></div>
@@ -317,8 +317,8 @@
             </div>
             <form
                 role="form"
-                name="formInserirEditar"
-                id="formInserirEditar"
+                name="formSorteio"
+                id="formSorteio"
                 novalidate
                 ng-submit="sortearGrupo();"
             >
@@ -375,8 +375,8 @@
             </div>
             <form
                 role="form"
-                name="formInserirEditar"
-                id="formInserirEditar"
+                name="formConvite"
+                id="formConvite"
                 novalidate
                 ng-submit="convidarGrupo();"
             >

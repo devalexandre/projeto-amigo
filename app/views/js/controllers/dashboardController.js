@@ -33,7 +33,7 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
             toastr.error('Para continuar é necessario selecionar uma data.');
         }else{
             // $scope.cadastro.dateSorteio = parseDate($scope.cadastro.dateSorteio, 1);
-            var strUrl = BASEURL + 'grupo/criarGrupo';
+            var strUrl = BASEURL + 'grupo/grupos';
             var config = {
                 headers: {
                     'Content-Type':  'application/json;charset=utf-8;',
@@ -192,7 +192,7 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
     };
 
     $scope.mudaRota = function(){
-        $location.path('/criarGrupo');
+        $location.path('/grupos');
     };
 
 

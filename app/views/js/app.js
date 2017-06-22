@@ -45,9 +45,9 @@ app.config(function($routeProvider) {
             controller: 'usuarioController'
         })
 
-        .when('/criarGrupo', {
-            templateUrl: 'pages/criar-grupo.html',
-            controller: 'criarGrupoController'
+        .when('/grupos', {
+            templateUrl: 'pages/grupos.html',
+            controller: 'gruposController'
         })
 
         .when('/editar-senha', {

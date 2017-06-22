@@ -3,7 +3,6 @@
 namespace WebService\Model;
 require '../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 use PHPMailer;
-
 class Grupo extends AppModel
 {
     public function criarGrupo($objGrupo, $idUser)
@@ -69,13 +68,14 @@ class Grupo extends AppModel
     {
         $this->setConnection('mysql');
         //verifica se o usuario já está no grupo
-        $sqlVerifica = "SELECT count(usuario_usuarioGrupo) AS totalUser FROM tab_usuarioGrupo WHERE grupo_usuarioGrupo :idGrupo, usuario_usuarioGrupo = :idUsuario";
+        $sqlVerifica = "SELECT count(usuario_usuarioGrupo) AS totalUser FROM tab_usuarioGrupo WHERE grupo_usuarioGrupo = :idGrupo AND usuario_usuarioGrupo = :idUsuario";
         $arrParametrosVerifica = [
             ':idGrupo' => $objGrupo['idGrupo'],
-            ':idUsuario' => $idUser->intIdUsuario
+            ':idUsuario' => $idUsuario->intIdUsuario
         ];
+
         $objTransacao = $this->select($sqlVerifica, $arrParametrosVerifica);
-        if($objTransacao[0].['totalUser'] == 0){
+        if($objTransacao[0]['totalUser'] == 0){
             $sql = 'INSERT INTO tab_usuarioGrupo
                             (grupo_usuarioGrupo,
                             usuario_usuarioGrupo,
@@ -122,9 +122,9 @@ class Grupo extends AppModel
 
     public function enviarConvite($objGrupo, $idUser)
     {
+        $countConvites = 1;
         foreach($objGrupo['listMail'] as $value){
             $enviarSolicitacao = $this->enviaSolicitacao($value, $idUser->strNome);
-            return $enviarSolicitacao;
             if($enviarSolicitacao == true){
                 $sql = "INSERT INTO tab_convite (grupo_convite, email_convite, dataCriacao_convite) values (:idGrupo, :emailSorteado, :dataCriacao)";
                 $arrParametros = [
@@ -133,28 +133,37 @@ class Grupo extends AppModel
                     ':dataCriacao' => date('Y-m-d')
                 ];
                 $objTransacao2 = $this->execute($sql, $arrParametros);
+                $countConvites++;
             }
+        }
+        if($countConvites == 1){
+            return ['code' => 1, 'message' => 'Houve um erro ao enviar os convites'];
+        }elseif($countConvites == 2){
+            return ['code' => 1, 'message' => 'O convite foi enviado com sucesso!'];
+        }else{
             return ['code' => 1, 'message' => 'Os convites foram enviados com sucesso!'];
         }
     }
 
-    private function enviaSolicitacao($emailCliente, $strRemetente)
+    public function enviaSolicitacao($emailCliente, $strRemetente)
     {
-
         $mail = new PHPMailer();
         $mail->IsSMTP();
-        $mail->SMTPDebug = 2;
-        $mail->Debugoutput = 'html';
         $mail->Host = 'smtp.gmail.com';
         $mail->CharSet = 'UTF-8';
         $mail->Port = 587;
         $mail->SMTPSecure = 'tls';
         $mail->SMTPAuth = true;
         $mail->Username = 'fred.fmm@gmail.com';
-        $mail->Password = 'fredff150';
+        $mail->Password = 'xx';
+        $mail->SMTPOptions = [
+          'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+          ]
 
-
-
+        ];
         // Define o remetente
         $mail->From = 'fred.fmm@gmail.com';
         $mail->FromName = $strRemetente;
@@ -162,30 +171,29 @@ class Grupo extends AppModel
         $mail->AddAddress($emailCliente);
         $mail->IsHTML(true);
         $mail->Subject = 'Você recebeu um convite para participar do amigo secreto';
-        $mail->Body = 'teste';
+        $mail->Body = 'Olá, seu amigo '.$strRemetente.' convidou você para participar do amigo secreto. Acesse www.fred.com.br';
 
         $enviado = $mail->Send();
-        if (!$enviado) {
-            return ['code' => 1, 'message' =>  $enviado];
 
-        } else {
-            return ['code' => 1, 'message' => 'foi'];
-        }
         $mail->ClearAllRecipients();
         $mail->ClearAttachments();
 
         if ($enviado) {
-            return [
-              'code' => 1,
-              'message' => 'E-mail enviado com sucesso!'
-            ];
+            return true;
         }
-
-        return [
-          'code' => 0,
-          'message' => 'Houve um erro ao enviar o e-mail',
-          'erro' => $mail->ErrorInfo
-        ];
+        return false;
+        // if ($enviado) {
+        //     return [
+        //       'code' => 1,
+        //       'message' => 'E-mail enviado com sucesso!'
+        //     ];
+        // }
+        //
+        // return [
+        //   'code' => 0,
+        //   'message' => 'Houve um erro ao enviar o e-mail',
+        //   'erro' => $mail->ErrorInfo
+        // ];
     }
 
     // public function sortear($objGrupo)
