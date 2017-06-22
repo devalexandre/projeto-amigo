@@ -36,7 +36,7 @@
                 Nome - {{grupos.nome_grupo}}<br/>
                 Data do Sorteio- {{parseDate(grupos.dataSorteio_grupo, 3)}}
                 <br/>
-                <div ng-if="grupos.admin_grupo = intIdUsuarioprojetoAmigo">
+                <div ng-if="grupos.admin_grupo == intIdUsuarioprojetoAmigo">
                     <button
                         class="btn btn-default btn-form-search"
                         type="submit"
@@ -81,7 +81,6 @@
                             Resultado do sorteio
                         </button>
                     </div>
-
                 </div>
             </div>
 

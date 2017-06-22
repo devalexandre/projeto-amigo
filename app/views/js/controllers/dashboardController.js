@@ -31,7 +31,7 @@ app.controller('dashboardController', function($scope, $rootScope, BASEURL, $win
         $http.post(strUrl, config).success(function(response){
             console.log(response);
             if (response.code == 1) {
-                $scope.strConvites = response.grupo;
+                $scope.strConvites = response.convite;
             } else {
                 // toastr.error('Você não está participando de nenhum grupo!');
             }

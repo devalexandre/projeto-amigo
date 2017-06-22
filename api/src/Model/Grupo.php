@@ -129,12 +129,25 @@ class Grupo extends AppModel
     public function verificaConvite($idUsuario)
     {
         $sql = 'SELECT DISTINCT grupo_convite FROM tab_convite where email_convite = :strEmail AND aceito_convite = 0';
-        $convites = $this->select($sql, [':strEmail' => $usuario[0]['email_usuario']]);
+        $convites = $this->select($sql, [':strEmail' => $idUsuario->emailUsuario]);
         if ($convites === false) {
             return ['code' => 0, 'message' => 'Não existe nenhum convite em aberto.'];
         } else {
-            $sql = 'SELECT Count() grupo_convite FROM tab_convite where email_convite = :strEmail AND aceito_convite = 0';
-            return ['code' => 1, 'usuario' => $usuario[0], 'convite' => $convites];
+            return ['code' => 1, 'convite' => $convites];
+
+            // $sql = 'SELECT COUNT(DISTINCT usuario_usuarioGrupo) as totalUsuarios FROM tab_usuarioGrupo where grupo_usuarioGrupo = :intGrupo';
+            // $arrParametros = [
+            //     ':intGrupo' =>$intIdGrupo
+            // ];
+            // $objCount = $this->select($sql, $arrParametros);
+            // if ($objCount === false) {
+            //     return ['code' => 0, 'message' => $arrParametros];
+            // }else{
+            //     if ($objCount[0]['totalUsuarios'] == '0') {
+            //         return ['code' => 0, 'message' => $objCount[0]['totalUsuarios']];
+            //     } else {
+            //         return ['code' => 1, 'usuario' => $usuario[0], 'convite' => $convites];
+            //     }
         }
     }
 
